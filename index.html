@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background-color: #333;
+        color: #fff;
+    }
+    .main{
+        display: flex;
+    }
+    .container{
+        width: 850px;
+        height: 850px;
+        border-radius: 15px;
+        position: relative;
+        background-image: url("https://images.pexels.com/photos/413195/pexels-photo-413195.jpeg?cs=srgb&dl=pexels-pixmike-413195.jpg&fm=jpg");
+        background-position: center;
+        background-size: cover;
+        /* position: fixed; */
+        overflow: hidden;
+        /* box-shadow: 0 0 10px #0ef, 0 0 20px #0ef,0 0 40px #0ef, 0 0 80px #0ef;  */
+    }
+
+    .container .line{
+        height: 5px;
+        background-color: red;
+        width: 100%;
+        margin-top: 160px;
+    }
+
+    .container .count{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    img.ball2{
+       position: absolute;
+       top: 10px;
+       left: 10px;
+       filter: drop-shadow(10px 10px 10px #000);
+    }
+
+    .container img{
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .commands{
+        padding: 20px;
+        border: 1px solid #000;
+        width: 500px;
+        margin-left: 20px;
+    }
+
+    .comm_keys{
+        margin-left: 20px;
+    }
+
+    .keys{
+        margin-top: 20px;
+        margin-left: 20px;
+        padding: 20px;
+        border: 1px solid #000;
+    }
+
+    .but{
+        background-color: grey;
+        color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        box-shadow: 1px 1px 1px #0ef;
+    }
+
+    .start{
+        margin-top: 20px;
+        margin-left: 20px;
+        padding: 20px;
+        border: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .start button{
+        width: 50%;
+        height: 35px;
+        color: #fff;
+        border: none;
+        border-radius: 15px;
+        background-color: rgb(0, 35, 192);
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .start button:hover{
+        box-shadow: 0 0 10px #0ef, 0 0 20px #0ef, 0 0 40px #0ef, 0 0 80px #0ef;
+    }
+
+    img.ball1{
+        transition: 1s ease;
+    }
+
+    .appStats{
+        position: relative;
+        border: 1px solid #000;
+        /* margin-top: 20px; */
+        margin-left: 20px;
+        padding: 20px;
+        height: 90vh;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+
+    ::-webkit-scrollbar{
+        width: 5px;
+        background-color: rgb(255, 188, 188);
+    }
+
+    ::-webkit-scrollbar-thumb{
+        background-color: rgb(243, 73, 73);
+    }
+
+    .controller{
+        border: 1px solid #000;
+        margin-top: 20px;
+        margin-left: 20px;
+        padding: 20px;
+    }
+
+    .controller .keysa .key_top{
+        display: flex;
+    }
+
+    .controller .keysa .key_bottom{
+        display: flex;
+    }
+
+    .controller .keysa .key_top .key{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        background-color: #0ef;
+        color: #333;
+        margin-left: 5px;
+        margin-top: 5px;
+        width: 35px;
+        height: 35px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .controller .keysa .key_bottom .key{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        background-color: #0ef;
+        color: #333;
+        margin-left: 5px;
+        margin-top: 5px;
+        width: 35px;
+        height: 35px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+</style>
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="count"><p>Total Score: <span id="score"></span></p></div>
+            <div class="line"></div>
+            <img src="ball.png" alt="" class="ball1">
+            <img src="ball.png" class="ball2" alt="">
+        </div>
+        <div class="comm_keys">
+            <div class="commands">
+                <h3 style="font-family: sans-serif;">Status</h3>
+                <p>Current time: <span id="time"></span></p>
+                <p>App Response: <span id="appResp"></span></p>
+                <p>The position of moving ball is: <span id="latlong"></span></p>
+                <p>The position of player's ball is: <span id="player"></span></p>
+            </div>
+
+            <div class="keys">
+                <h3 style="font-family: sans-serif;">Userful keys to play the game</h3>
+                <p><span class="but">U</span> Moves ball by 10px</p>
+                <p><span class="but">↑</span> Moves ball by 50px upwards</p>
+                <p><span class="but">↓</span> Moves ball by 50px downwards</p>
+                <p><span class="but">←</span> Moves ball by 50px left</p>
+                <p><span class="but">→</span> Moves ball by 50px right</p>
+
+
+            </div>
+
+            <div class="start">
+
+                <button id="start" type="button">Start Random Movement</button>
+            </div>
+
+            <div class="controller">
+
+                <div class="keysa">
+                <h3 style="font-family: sans-serif;">Visual Controller</h3>
+
+                    <div class="key_top">
+                        <div class="key" style="background-color: #333;"></div>
+                        <div class="key key_tops" >
+                            ↑
+                        </div>
+                        <div class="key" style="background-color: #333;"></div>
+                    </div>
+
+                    <div class="key_bottom">
+                        <div class="key key_left">←</div>
+                        <div class="key key_bottoms">↓</div>
+                        <div class="key key_right">→</div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="appStats" id="main">
+            <h3 style="font-family: sans-serif;">App Stats</h3>
+        </div>
+        
+
+    </div>
+    <div id="dragText"></div>
+
+    <script>
+        const score = document.querySelector("#score");
+        let appResp = document.querySelector('#appResp');
+
+        let currentPosX =0;
+        let currentPosY =0;
+        setInterval(()=>{
+        date = new Date()
+
+            const hour = date.getHours();
+            const min = date.getMinutes();
+            const sec = date.getSeconds();
+
+            newTime = `${hour}:${min}:${sec}`
+            time.innerHTML = newTime
+
+        }, 1000)
+
+
+        document.addEventListener('keydown', (e)=>{
+            console.log(e)
+            let scoreI = 0;
+            
+
+            if(e.key==="ArrowRight" || e.key==="D" || e.key==="d"){
+                document.querySelector('img').style.transform += "translateX(50px)"
+                appRespa = "Ball moved right by 50px";
+                appResp.innerHTML = appRespa;
+                currentPosX+=50;
+                document.querySelector('.key_right').style.background =  "rgb(0, 170, 182)"
+
+                setTimeout(()=>{
+                    document.querySelector('.key_right').style.background =  "#0ef"
+                }, 600)
+            }else if(e.key==="ArrowLeft" || e.key==="A" || e.key==="a"){
+                document.querySelector('img').style.transform += "translateX(-50px)"
+                appRespa = "Ball moved left by 50px";
+                appResp.innerHTML = appRespa;
+                currentPosX-=50;
+
+                document.querySelector('.key_left').style.background =  "rgb(0, 170, 182)"
+
+                setTimeout(()=>{
+                    document.querySelector('.key_left').style.background =  "#0ef"
+                }, 600)
+            }
+            else if(e.key==="ArrowUp" || e.key==="W" || e.key==="w"){
+                document.querySelector('img').style.transform += "translateY(-50px)"
+                appRespa = "Ball moved upward by 50px";
+                appResp.innerHTML = appRespa;
+                currentPosY +=50;
+
+                document.querySelector('.key_tops').style.background =  "rgb(0, 170, 182)"
+
+                setTimeout(()=>{
+                    document.querySelector('.key_tops').style.background =  "#0ef"
+                }, 600)
+            }
+            else if(e.key==="ArrowDown" || e.key==="S" || e.key==="s"){
+                document.querySelector('img').style.transform += "translateY(50px)"
+                appRespa = "Ball moved downward by 50px";
+                appResp.innerHTML = appRespa;
+                currentPosY-=50;
+                document.querySelector('.key_bottoms').style.background =  "rgb(0, 170, 182)"
+
+                setTimeout(()=>{
+                    document.querySelector('.key_bottoms').style.background =  "#0ef"
+                }, 600)
+            }else if(e.key==="u" || e.key ==="U"){
+                scoreI=scoreI+10;
+                score.innerText+=scoreI;
+                document.querySelector('img').style.transform += "translate(100px, -100px)"
+                appRespa = "The ball moved by 10px";
+                appResp.innerHTML = appRespa
+                
+            }else{
+                scoreI-=100;
+                appRespa = "User pressed invalid key"
+                appResp.innerHTML = "Please press a valid key"
+            }
+
+            currentPos = `(${currentPosX}, ${currentPosY})`
+
+            if(currentPosX < 0 || currentPosY < 0 || currentPosY > 700 || currentPosX > 600){
+                appResp.innerHTML = "You cannot go outside of canvas"
+                
+                document.querySelector('img').style.transform = "translate(10px, 10px)"
+                currentPosX = 10;
+                currentPosY = 10;
+                alert('Game Over')
+                location.reload()
+
+                return false
+            }
+
+            if(currentPosY>=650){
+                appResp.innerHTML = "You won 50 points"
+                scoreI=50;
+                score.innerHTML += scoreI
+            }
+
+            let player = document.querySelector('#player')
+            player.innerHTML = currentPos;
+
+            document.querySelector('.appStats').innerHTML += `<span>${newTime}</span>` + ":   " + appRespa+ "<br>"; //add style if needed in span style="padding: 5px; background: #0ef; margin-bottom: 5px;"
+            // alert(appResp)
+        
+            
+        })
+
+        const button = document.querySelector('button')
+
+        button.addEventListener("click", ()=>{
+            alert("Movement of ball started track ball to win the game")
+            setInterval(()=>{
+            let x = Math.floor(Math.random()*700)
+            let y = Math.floor(Math.random()*700)
+
+            const image = document.querySelector(".ball2");
+            image.style.transform = `translate(${x}px, ${y}px)`
+            image.style.transition = `1s ease`
+
+            let latlong = document.querySelector("#latlong")
+            currentPosRobot = `(${x}, ${y})`
+            latlong.innerHTML = currentPosRobot;
+
+            let time =  document.querySelector('#time')
+            
+
+        }, 1000)
+        })
+
+        // currentPosX > 650 playe wins
+
+        
+
+        // const img = document.querySelector('img')
+        // const container = document.querySelector('.container')
+        // img.addEventListener('dragstart', (e)=>{
+        //     console.log(e)
+        //     e.dataTransfer.setData("Img", e.target.id);
+        //     document.querySelector("#dragText").innerHTML = "The object is started to be draggeds";
+        // })
+        // img.addEventListener('dragover', (e)=>{
+        //     e.preventDefault();
+        // })
+
+        // container.addEventListener('drop', (e)=>{
+        //     e.preventDefault()
+        //     const data = e.dataTransfer.getData("Img");
+        //     e.target.appendChild(document.getElementById(data));
+        //     document.getElementById("dragText").innerHTML = "The Img was dropped";
+        // })
+    </script>
+</body>
+</html>
